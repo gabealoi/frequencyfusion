@@ -21,9 +21,12 @@ jobs:
           safe_issue_user=$(echo "$ISSUE_USER" | jq -R .)
           safe_repository=$(echo "$REPOSITORY" | jq -R .)
 
+          # Build the JSON payload with jq to ensure correct formatting
+          payload=$(jq -n \
+            --arg content "# 🪲Bug Report: \n\n ## Title: **[$ISSUE_TITLE]($ISSUE_URL)** \n ### Reported by: $ISSUE_USER \n ### Repository: [$REPOSITORY](https://github.com/$REPOSITORY)" \
+            '{content: $content}')
+
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d "{
-              \"content\": \"# 🪲Bug Report: \\n\\n ## Title: **[${safe_issue_title}](${ISSUE_URL})** \\n ### Reported by: ${safe_issue_user} \\n ### Repository: [${safe_repository}](https://github.com/${REPOSITORY})\"
-            }" \
+            -d "$payload" \
             "${{ secrets.DISCORD_WEBHOOK_URL }}"
