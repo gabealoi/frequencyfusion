@@ -17,8 +17,13 @@ jobs:
           ISSUE_USER: ${{ github.event.issue.user.login }}
           REPOSITORY: ${{ github.repository }}
         run: |
-          # Prepare the Markdown content
-          content="# 🪲Bug Report: \n\n ## Title: **[${ISSUE_TITLE}](${ISSUE_URL})** \n ### Reported by: ${ISSUE_USER} \n ### Repository: ***${REPOSITORY}***"
+          # Prepare the Markdown content with actual newlines
+          content=$(
+            echo "# 🪲 Bug Report: 
+            ## Title: **[${ISSUE_TITLE}](${ISSUE_URL})**
+            ### Reported by: ${ISSUE_USER}
+            ### Repository: [${REPOSITORY}](https://github.com/${REPOSITORY})"
+          )
 
           # Escape JSON without affecting Markdown formatting
           payload=$(jq -n --arg content "$content" '{content: $content}')
