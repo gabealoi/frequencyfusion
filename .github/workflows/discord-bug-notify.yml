@@ -27,6 +27,6 @@ jobs:
           curl -X POST \
             -H "Content-Type: application/json" \
             -d "{
-              "content": "# 🪲Bug Report:\n\n## Title: **[$ESCAPED_TITLE]($ISSUE_URL)**\n### Reported by: $ESCAPED_USER\n### Repository: [$ESCAPED_REPO](https://github.com/$ESCAPED_REPO)"
+              \"content\": "# 🪲Bug Report:\n\n## Title: **[$ESCAPED_TITLE]($ISSUE_URL)**\n### Reported by: $ESCAPED_USER\n### Repository: [$ESCAPED_REPO](https://github.com/$ESCAPED_REPO)\"
             }" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
