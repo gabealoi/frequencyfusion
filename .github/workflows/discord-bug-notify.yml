@@ -17,5 +17,5 @@ jobs:
             -d '{
               "content": "# 🪲Bug Report: \n\n ## Title: **${{ github.event.issue.title }}** \n #### Reported by: ${{ github.event.issue.user.login }}\n #### Issue URL: [Click here](${{ github.event.issue.html_url }})"
             }'
-            ${{ secrets.DISCORD_WEBHOOK_URL }}
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
 
