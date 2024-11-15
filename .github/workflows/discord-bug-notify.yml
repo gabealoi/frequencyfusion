@@ -18,10 +18,10 @@ jobs:
           ISSUE_URL="${{ github.event.issue.html_url }}"
           REPO="${{ github.repository }}"
 
-          # Escape the variables to handle special characters
-          ESCAPED_TITLE=$(echo "$TITLE" | sed 's/"/\\"/g; s/\x27/\\x27/g')
-          ESCAPED_USER=$(echo "$USER" | sed 's/"/\\"/g; s/\x27/\\x27/g')
-          ESCAPED_REPO=$(echo "$REPO" | sed 's/"/\\"/g; s/\x27/\\x27/g')
+          # Escape single quotes only
+          ESCAPED_TITLE=$(echo "$TITLE" | sed "s/'/\\'/g")
+          ESCAPED_USER=$(echo "$USER" | sed "s/'/\\'/g")
+          ESCAPED_REPO=$(echo "$REPO" | sed "s/'/\\'/g")
 
           # Prepare the Discord message payload
           curl -X POST \
