@@ -14,5 +14,7 @@ jobs:
         run: |
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d "{\"content\": \"New bug reported: **${{ github.event.issue.title }}** by ${{{{ github.event.issue.user.login }}}}\\n\\nIssue URL: ${{ github.event.issue.html_url }}\"}" \
+            -d '{
+              "content": "New bug reported: **${{ github.event.issue.title }}** by ${{ github.event.issue.user.login }}\n\nIssue URL: ${{ github.event.issue.html_url }}"
+            }' \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
