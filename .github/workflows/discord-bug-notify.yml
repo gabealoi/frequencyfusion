@@ -22,7 +22,7 @@ jobs:
             echo "# 🪲 Bug Report: 
             ## Title: **[${ISSUE_TITLE}](${ISSUE_URL})**
             ### Reported by: ${ISSUE_USER}
-            ### Repository: [${REPOSITORY}](https://github.com/${REPOSITORY})"
+            ### Repository: ***${REPOSITORY}***"
           )
 
           # Escape JSON without affecting Markdown formatting
