@@ -7,14 +7,23 @@ on:
 jobs:
   notify-discord:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Check if the issue has the "bug" label
         if: contains(github.event.issue.labels.*.name, 'bug')
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+          REPOSITORY: ${{ github.repository }}
         run: |
+          safe_issue_title=$(echo "$ISSUE_TITLE" | jq -R .)
+          safe_issue_user=$(echo "$ISSUE_USER" | jq -R .)
+          safe_repository=$(echo "$REPOSITORY" | jq -R .)
+
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d '{
-              "content": "# 🪲Bug Report: \n\n ## Title: **[${{ github.event.issue.title }}](${{ github.event.issue.html_url }})** \n ### Reported by: ${{ github.event.issue.user.login }} \n ### Repository: [${{ github.repository }}](https://github.com/${{ github.repository }})"
-            }' \
-            ${{ secrets.DISCORD_WEBHOOK_URL }}
+            -d "{
+              \"content\": \"# 🪲Bug Report: \\n\\n ## Title: **[${safe_issue_title}](${ISSUE_URL})** \\n ### Reported by: ${safe_issue_user} \\n ### Repository: [${safe_repository}](https://github.com/${REPOSITORY})\"
+            }" \
+            "${{ secrets.DISCORD_WEBHOOK_URL }}"
