@@ -15,7 +15,7 @@ jobs:
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{
-              "content": "# 🪲Bug Report: \n\n ## Title: **${{ github.event.issue.title }}** \n #### Reported by: ${{ github.event.issue.user.login }}\n #### Issue URL: [Click here](${{ github.event.issue.html_url }})"
+              "content": "# 🪲Bug Report: \n\n ## Title: **[${{ github.event.issue.title }}](${{ github.event.issue.html_url }})** \n ### Reported by: ${{ github.event.issue.user.login }} \n ### Repository: [${{ github.repository }}](https://github.com/${{ github.repository }})"
             }' \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
 
