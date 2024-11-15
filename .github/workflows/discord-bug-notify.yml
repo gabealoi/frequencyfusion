@@ -12,21 +12,9 @@ jobs:
       - name: Check if the issue has the "bug" label
         if: contains(github.event.issue.labels.*.name, 'bug')
         run: |
-          # Escape potential unwanted characters in issue title and user login
-          TITLE="${{ github.event.issue.title }}"
-          USER="${{ github.event.issue.user.login }}"
-          ISSUE_URL="${{ github.event.issue.html_url }}"
-          REPO="${{ github.repository }}"
-
-          # Escape single quotes only
-          ESCAPED_TITLE=$(echo "$TITLE" | sed "s/'/\\'/g")
-          ESCAPED_USER=$(echo "$USER" | sed "s/'/\\'/g")
-          ESCAPED_REPO=$(echo "$REPO" | sed "s/'/\\'/g")
-
-          # Prepare the Discord message payload
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d "{
-              \"content\": "# 🪲Bug Report:\n\n## Title: **[$ESCAPED_TITLE]($ISSUE_URL)**\n### Reported by: $ESCAPED_USER\n### Repository: [$ESCAPED_REPO](https://github.com/$ESCAPED_REPO)\"
-            }" \
+            -d '{
+              "content": "# 🪲Bug Report: \n\n ## Title: **[${{ github.event.issue.title }}](${{ github.event.issue.html_url }})** \n ### Reported by: ${{ github.event.issue.user.login }} \n ### Repository: [${{ github.repository }}](https://github.com/${{ github.repository }})"
+            }' \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
